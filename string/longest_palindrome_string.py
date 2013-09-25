@@ -22,10 +22,26 @@ import sys
 def lps(origin):
   if len(origin) == 0:
     return
-
-
+  element = [True] * len(origin)
+  lp = []
+  for i in range(len(origin)):
+    lp.append(element[:])
+  max_lps = 1
+  for m in range(2, len(origin)+1):
+    for i in range(len(origin)-m+1):
+      j = i + m -1
+      lp[i][j] = False 
+      if origin[i] == origin[j] and lp[i+1][j-1]:
+        lp[i][j] = True
+        if max_lps < m:
+          max_lps = m
+    print lp        
+  print max_lps
 
 if __name__ == '__main__':
   reload(sys)
   sys.setdefaultencoding('utf8')
+  origin = list('ada')
+  print origin
+  lps(origin)
 
