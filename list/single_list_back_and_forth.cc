@@ -1,5 +1,5 @@
 // Author: qushuqian
-// Problem: judge the list if there has circle
+// Problem: 
 // solution:
  
 #include <iostream>
@@ -13,17 +13,40 @@ struct Node {
   Node():data(0),next(NULL){}
 };
 
-bool exist_circle(Node* head_list) {
-  if (!head_list) return false;
+void reverse_list(Node*& head_list) {
+  if (!head_list) return;
+  Node* pre = NULL;
+  Node* cur = head_list;
+  Node* nex = head_list->next;
+  while (nex) {
+    cur->next = pre;
+    pre = cur;
+    cur = nex;
+    nex = nex->next;
+  }
+  cur->next = pre;
+  head_list = cur;
+}
+
+void list_back_and_forth(Node* head_list) {
+  if (!head_list) return;
   Node* p = head_list;
   Node* q = head_list->next;
-  while (q&&q->next) {
-    if (p == q)
-      return true;
+  while (q && q->next) {
     p = p->next;
     q = q->next->next;
   }
-  return false;
+  q = p->next;
+  p->next = NULL;
+  reverse_list(q);
+  p = head_list;
+  while (p) {
+    Node* s = p->next;
+    p->next = q;
+    q = q->next;
+    p->next->next = s;
+    p = s;
+  }
 }
 
 int main() {
@@ -43,7 +66,8 @@ int main() {
   }
   cout << endl;
 
-  cout << exist_circle(head) << endl;
+  list_back_and_forth(head);
+//  reverse_list(head);
 
   p = head;
   while (p) {
