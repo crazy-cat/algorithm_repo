@@ -33,7 +33,8 @@ def stable_sort(data_list):
       i += 1
       j += 1
   neg_list = stable_sort(data_list[:neg_num])
-  positive_list = stable_sort(data_list[:neg_num])
+  positive_list = stable_sort(data_list[neg_num:])
+#  print neg_list, positive_list
   return [abs(item) * -1 for item in neg_list] + [abs(item) for item in positive_list]
 
 
