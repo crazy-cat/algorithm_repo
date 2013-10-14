@@ -23,31 +23,33 @@ def is_interleaving(a,b,c):
   elif b[0] == c[0] and a[0] != c[0]:
     return is_interleaving(a, b[1:], c[1:])
   return False
-#  n = len(a)
-#  m = len(b)
-#  temp = [False] * (m+1)
-#  inter = []
-#  for i in range(n+1):
-#    inter.append(temp[:])
-#  inter[n][m] = True
-#  for i in range(n-1, -1, -1):
-#    if a[i] == c[m+i] and inter[i+1][m]:
-#      inter[i][m] = True
-#  for i in range(m-1, -1, -1):
-#    if b[i] == c[n+i] and inter[n][i+1]:
-#      inter[m][i] = True
-#  for i in range(n-1, -1, -1):
-#    for j in range(m-1, -1, -1):
-#      if a[i] == b[j] and a[i] == c[i+j]:
-#        inter[i][j] = (inter[i+1][j] or inter[i][j+1])
-#      elif a[i] != b[j] and a[i] == c[i+j]:
-#        inter[i][j] = inter[i+1][j]
-#      elif a[i] != b[j] and b[i] == c[i+j]:
-#        inter[i][j] = inter[i][j+1]
+
+def is_interleave_dp(a, b, c):
+  n = len(a)
+  m = len(b)
+  temp = [False] * (m+1)
+  inter = []
+  for i in range(n+1):
+    inter.append(temp[:])
+  inter[n][m] = True
+  for i in range(n-1, -1, -1):
+    if a[i] == c[m+i] and inter[i+1][m]:
+      inter[i][m] = True
+  for i in range(m-1, -1, -1):
+    if b[i] == c[n+i] and inter[n][i+1]:
+      inter[m][i] = True
+  for i in range(n-1, -1, -1):
+    for j in range(m-1, -1, -1):
+      if a[i] == b[j] and a[i] == c[i+j+1]:
+        inter[i][j] = (inter[i+1][j] or inter[i][j+1])
+      elif a[i] != b[j] and a[i] == c[i+j+1]:
+        inter[i][j] = inter[i+1][j]
+      elif a[i] != b[j] and b[i] == c[i+j+1]:
+        inter[i][j] = inter[i][j+1]
 #  for i in range(n+1):
 #    print inter[i]
-#  return inter[0][0]
-
+  return inter[0][0]
+    
 
 if __name__ == '__main__':
   reload(sys)
@@ -56,5 +58,7 @@ if __name__ == '__main__':
   b = "dbbca"
   c = "aadbbcbcac"
   print a, b, c, is_interleaving(a, b, c)
+  print a, b, c, is_interleave_dp(a, b, c)
   c = "aadbbbaccc"
   print a, b, c, is_interleaving(a, b, c)
+  print a, b, c, is_interleave_dp(a, b, c)
